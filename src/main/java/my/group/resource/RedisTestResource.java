@@ -8,15 +8,35 @@ import jakarta.ws.rs.Path;
 
 import java.time.Duration;
 
+/**
+ * REST resource for testing Redis connectivity and basic operations.
+ * 
+ * This resource provides endpoints to verify the Redis connection and demonstrate
+ * storing and retrieving values from Redis with TTL (Time To Live) expiration.
+ */
 @Path("/prueba-redis")
 public class RedisTestResource {
 
     private final ValueCommands<String, String> countCommands;
 
+    /**
+     * Constructs a RedisTestResource with the given Redis datasource.
+     * 
+     * @param ds the RedisDataSource to use for Redis operations
+     */
     public RedisTestResource(RedisDataSource ds) {
         this.countCommands = ds.value(String.class);
     }
 
+    /**
+     * Tests the Redis connection by storing and retrieving a test value.
+     * 
+     * This method demonstrates a basic Redis operation:
+     * 1. Stores a test value with a 120-second TTL expiration
+     * 2. Immediately retrieves the value from Redis
+     * 
+     * @return a message confirming the successful connection and the retrieved value from Redis
+     */
     @GET
     public String probarConexion() {
         // 1. Guardamos un valor con una llave de prueba
