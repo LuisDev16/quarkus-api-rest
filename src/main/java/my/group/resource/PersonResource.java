@@ -17,6 +17,15 @@ import my.group.service.PersonService;
 
 import java.util.List;
 
+
+/**
+ * REST resource for managing people.
+ * 
+ * Provides CRUD operations for Person entities through HTTP endpoints.
+ * All requests and responses are in JSON format.
+ * 
+ * @author my.group
+ */
 @Path("/api/v1/peoples")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

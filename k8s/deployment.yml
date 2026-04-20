@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authorization-support-v1
+  namespace: dev
+  labels:
+    app: authorization-support
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authorization-support
+  template:
+    metadata:
+      labels:
+        app: authorization-support
+      annotations:
+        # --- CONFIGURACIÓN DE VAULT ---
+        # 1. Habilitar el inyector
+        vault.hashicorp.com/agent-inject: "true"
+        # 2. El rol configurado en Vault (el que da los permisos)
+        vault.hashicorp.com/role: "authorization-support-role"
+        # 3. La ruta del secreto en Vault
+        vault.hashicorp.com/agent-inject-secret-REDIS_PASSWORD: "internal/data/microservices/redis"
+        # 4. Plantilla para crear la variable de entorno que Quarkus leerá
+        vault.hashicorp.com/agent-inject-template-REDIS_PASSWORD: |
+          {{- with secret "internal/data/microservices/redis" -}}
+          export REDIS_PASSWORD="{{ .Data.data.password }}"
+          {{- end -}}
+    spec:
+      # El ServiceAccount que tiene el "permiso" de hablar con Vault
+      serviceAccountName: auth-service-account
+      containers:
+        - name: quarkus-app
+          image: tu-registro.azurecr.io/auth-support:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: QUARKUS_CONFIG_LOCATIONS
+              value: "/deployments/config/authorization-support-v1.yml"
+          # --- MONTAJE DEL CONFIGMAP ---
+          volumeMounts:
+            - name: config-volume
+              mountPath: /deployments/config/
+              readOnly: true
+      volumes:
+        - name: config-volume
+          configMap:
+            # Este es el nombre que definiste en tu kustomization.yaml
+            name: support-tupi-authorization-v1

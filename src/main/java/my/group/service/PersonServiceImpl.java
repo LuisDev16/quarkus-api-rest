@@ -31,6 +31,10 @@ public class PersonServiceImpl implements PersonService {
       return PersonMapper.fromDto(Person.listAll());
     }
 
+    private void validateEmail(String email) {
+
+    }
+
     @Override
     @Transactional
     public void deletePerson(Long id) {
