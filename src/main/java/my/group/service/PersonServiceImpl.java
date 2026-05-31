@@ -32,7 +32,10 @@ public class PersonServiceImpl implements PersonService {
     }
 
     private void validateEmail(String email) {
-
+        var personDb = Person.find("email", email).firstResult();
+        if (personDb != null) {
+            throw new IllegalArgumentException("Email already exists");
+        }
     }
 
     @Override
