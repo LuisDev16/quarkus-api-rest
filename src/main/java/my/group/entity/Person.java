@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 /*Entity created using
 *Actived Record Pattern
+* para uan db de azure
 * */
 @Entity
 public class Person extends PanacheEntity {
