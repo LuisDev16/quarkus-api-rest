@@ -2,5 +2,7 @@ package my.group.entity;
 
 public enum Status {
     ALIVE,
-    DECEASED
+    DECEASED,
+    SINGLE,
+    MARRIED
 }
