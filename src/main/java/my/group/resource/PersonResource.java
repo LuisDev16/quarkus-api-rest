@@ -24,7 +24,7 @@ import java.util.List;
  * Provides CRUD operations for Person entities through HTTP endpoints.
  * All requests and responses are in JSON format.
  * 
- * @author my.group
+ * @author my.group.speedbox
  */
 @Path("/api/v1/peoples")
 @Produces(MediaType.APPLICATION_JSON)
