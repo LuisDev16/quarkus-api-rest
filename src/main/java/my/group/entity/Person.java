@@ -23,6 +23,11 @@ public class Person extends PanacheEntity {
     public Person() {
     }
 
+    /**
+     * Initializes the name, birth date, status, and age fields.
+     *
+     * @param email accepted but not assigned; the new person's email remains {@code null}
+     */
     public Person(String name, LocalDate birth, Status status, int age, String email) {
         this.name = name;
         this.birth = birth;

@@ -34,6 +34,13 @@ public class PersonServiceImpl implements PersonService {
       return PersonMapper.fromDto(Person.listAll());
     }
 
+    /**
+     * Verifies that an email has the accepted {@code .com} format and is not already stored.
+     *
+     * @param email the address to validate
+     * @return {@code true} when the address is valid and available
+     * @throws BadRequestException if the address is invalid or already registered
+     */
     private boolean validateEmail(String email) {
         if (email == null || !email.matches("^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.com$")) {
             throw new BadRequestException("Email must be a valid address ending in .com");
@@ -64,6 +71,13 @@ public class PersonServiceImpl implements PersonService {
         if (dto.status() != null) personDb.status = dto.status();
     }
 
+    /**
+     * Finds a persisted person by identifier.
+     *
+     * @param id the persistent person identifier
+     * @return the matching person
+     * @throws NotFoundException if no person has the identifier
+     */
     private Person findByIdPerson(Long id) {
         return Person.<Person>findByIdOptional(id)
                 .orElseThrow(()-> new NotFoundException("Person with id: %d not exists".formatted(id)));
